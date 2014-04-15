@@ -1,0 +1,35 @@
+{
+	"name": "nickaversano/scavenger",
+	"description": "A url scavenger that returns detailed information about a webpage including the content type, the main image, the title, etc.",
+	"version": "1.0.0",
+	"keywords": ["cURL", "Spider", "Crawler", "URL", "Parser", "Scavenger", "Extractor"],
+	"homepage": "https://github.com/nickaversano/scavenger",
+	"minimum-stability": "dev",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Nick Aversano",
+			"email": "nick@nickaversano.com",
+			"homepage": "http://nickaversano.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.0.0",
+		"ext-curl": "*"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~3.7",
+		"league/phpunit-coverage-listener": "~1.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"nickaversano\\Scavenger\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"nickaversano\\Scavenger\\Tests": "tests"
+		}
+	}
+}
