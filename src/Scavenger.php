@@ -8,7 +8,7 @@ class Scavenger
 {
 	/**
 	 * Fetches information from the URL and returns an array of information about the page
-	 * @param $url the string to parse
+	 * @param  string $url the to parse
 	 * @return array [title, description, keywords, images, type, url, website]
 	 */
 	public static function get($url)
@@ -23,7 +23,8 @@ class Scavenger
 
 	/**
 	 * Parse html data, extracting important information from the header or the body
-	 * @param $htmldata
+	 * @param string  $htmldata
+	 * @param string  $url      the url of the htmldata
 	 * @return array [title, description, keywords, images, type, url, website]
 	 */
 	public static function parse($htmldata, $url = null)
@@ -67,10 +68,7 @@ class Scavenger
 			}
 
 			if (empty($data['images'])) {
-				//if (isset($images)) $data['images'][] = $images->getAttribute('src');
 				$data['images'] = self::parseImages($doc, $url);
-
-				//var_dump($bucket);
 			}
 		}
 
@@ -109,17 +107,21 @@ class Scavenger
 		for ($i = 0; $i < $len; $i++) {
 			$meta = $metas->item($i);
 			$name = $meta->getAttribute('name');
+			$key = empty($name) ? $meta->getAttribute('property') : $name;
+
+			if (empty($key)) continue;
+
 			$content = $meta->getAttribute('content');
 
-			if (isset($data[$name])) continue; //don't override values
-
-			if (!empty($name)) {
-				$data[$name] = $content;
-			} else {
-				$property = $meta->getAttribute('property');
-				if (!empty($property)) {
-					$data[$property] = $content;
+			//if multiple values, create an array
+			if (isset($data[$key])) {
+				if (!is_array($data[$key])) {
+					$data[$key] = array($data[$key]);
 				}
+				$data[$key][] = $content;
+			}
+			else {
+				$data[$key] = $content;
 			}
 		}
 
